@@ -40,44 +40,67 @@ class account:
 
                 # sign in                                  
                 elif awnser == "no":
-                    account.firstname = input("what is your first name?")
-                    account.lastname = input("what is your last name?")
-                    account.userid = input("give us a user id:")
+                   
+                        account.firstname = input("what is your first name?")
+                        account.lastname = input("what is your last name?")
+                        
                     # checking the userid
+                        while True:
+                            account.userid = input("give us a user id:")
+                            with open("user-catering.txt","r") as file:
+                                content = file.read()
+                            users_blocks = content.split(" ` "*10)
+                            user_found = None
+                            for block in users_blocks:
+                                lines = block.strip().split("\n")
+                                current_user = {}
+                                for line in lines:
+                                    line = line.strip()
+                                    if line.startswith("User ID:"):
+                                        current_user['userid'] = line.split(":",1)[1].strip()
+                                if current_user.get('userid') ==  account.userid:
+                                     user_found = True
+                                     break
+                            if user_found:
+                                 print("someone is using this id try another")
+                            else:
+                                print("username accepted")
+                                break
+                        
 
 
 
 
                     
-                    while True:
-                        account.password = input("give us a password:")
-                        verify = input("verify your pass word:")
-                        if account.password == verify:
+                while True:
+                            account.password = input("give us a password:")
+                            verify = input("verify your pass word:")
+                            if account.password == verify:
 
                             # fill the file
-                            with open("user-catering.txt","a") as file:
+                                with open("user-catering.txt","a") as file:
                                 
-                                file.write("\n")
-                                file.write("First name:")
-                                file.write(account.firstname)
-                                file.write("\n")
-                                file.write(f"Last name:")
-                                file.write(account.lastname)
-                                file.write("\n")
-                                file.write("User ID:")
-                                file.write(account.userid)
-                                file.write("\n")
-                                file.write("Password:")
-                                file.write(account.password)
-                                file.write("\n")
-                                file.write(" ` "*10)
-                                file.write("\n")
+                                    file.write("\n")
+                                    file.write("First name:")
+                                    file.write(account.firstname)
+                                    file.write("\n")
+                                    file.write(f"Last name:")
+                                    file.write(account.lastname)
+                                    file.write("\n")
+                                    file.write("User ID:")
+                                    file.write(account.userid)
+                                    file.write("\n")
+                                    file.write("Password:")
+                                    file.write(account.password)
+                                    file.write("\n")
+                                    file.write(" ` "*10)
+                                    file.write("\n")
                                 print("it's done")
                                 print(">"*40)
                                 break
                                     
 
-                    break
+                break
 class recipe(account):
     def __init__(self,owner,foodname,category,preptime,servings,ingredients,moreinfo):
         self.owner = owner
@@ -89,9 +112,11 @@ class recipe(account):
         self.moreinfo = moreinfo
     def main():
         print("1 for adding a new recepi")
-        print("2 for searching in your reciepe ")
+        print("2 for searching in your reciepe and send it to someone")
         print("3 for making a shop list")
-        awnser = input("What do you want to do?") 
+        
+        awnser = input("What do you want to do?")
+
         if awnser == "1":
             
                 recipe.foodname = input("what is the name of this food")
@@ -99,7 +124,9 @@ class recipe(account):
                 recipe.preptime = input("How long dose it take to  make")
                 recipe.ingredients = input("write ingredients")
                 recipe.moreinfo = input("Who can't eat this?")
+
                 with open("food-catering.txt","a") as file:
+                        
                         file.write("\n")
                         file.write({current_user})
                         file.write("\n")
